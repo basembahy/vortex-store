@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Sparkles, Filter, Gamepad2, Home as HomeIcon, Crown, HelpCircle, ArrowRight } from 'lucide-react';
+import { Search, Sparkles, Filter, Gamepad2, Home as HomeIcon, Crown, HelpCircle, ArrowRight, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import api from '../api/client';
 import GameCard from '../components/GameCard';
 import GameModal from '../components/GameModal';
@@ -17,13 +17,17 @@ const CATEGORIES = [
   'Casual / Family'
 ];
 
+const ITEMS_PER_PAGE = 20;
+
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [activeSearch, setActiveSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedAccountType, setSelectedAccountType] = useState('ALL');
   const [sortBy, setSortBy] = useState('featured');
+  const [currentPage, setCurrentPage] = useState(1);
   const [selectedGameForModal, setSelectedGameForModal] = useState(null);
   const { settings } = useSettings();
 
@@ -42,12 +46,48 @@ export default function Home() {
     loadProducts();
   }, []);
 
+  // Search submission handlers (only triggers on Search button click or Enter key)
+  const handleSearchSubmit = (e) => {
+    if (e) e.preventDefault();
+    setActiveSearch(searchInput.trim());
+    setCurrentPage(1);
+  };
+
+  const handleClearSearch = () => {
+    setSearchInput('');
+    setActiveSearch('');
+    setCurrentPage(1);
+  };
+
+  const handleCategoryChange = (cat) => {
+    setSelectedCategory(cat);
+    setCurrentPage(1);
+  };
+
+  const handleAccountTypeChange = (type) => {
+    setSelectedAccountType(type);
+    setCurrentPage(1);
+  };
+
+  const handleSortChange = (val) => {
+    setSortBy(val);
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    const catalogEl = document.getElementById('catalog-section');
+    if (catalogEl) {
+      catalogEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   // Client filtering
   const filteredProducts = products.filter((p) => {
     const matchesSearch =
-      !search ||
-      (p.title && p.title.toLowerCase().includes(search.toLowerCase())) ||
-      (p.category && p.category.toLowerCase().includes(search.toLowerCase()));
+      !activeSearch ||
+      (p.title && p.title.toLowerCase().includes(activeSearch.toLowerCase())) ||
+      (p.category && p.category.toLowerCase().includes(activeSearch.toLowerCase()));
 
     const matchesCategory =
       selectedCategory === 'All' ||
@@ -78,6 +118,13 @@ export default function Home() {
     }
     return a.title.localeCompare(b.title);
   });
+
+  // Pagination calculations (20 items per page)
+  const totalItems = sortedProducts.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / ITEMS_PER_PAGE));
+  const validCurrentPage = Math.min(Math.max(1, currentPage), totalPages);
+  const startIndex = (validCurrentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedProducts = sortedProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
     <div className="min-h-screen w-full max-w-full overflow-x-hidden">
@@ -121,32 +168,58 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Instant Search Bar */}
-          <div className="mt-8 max-w-2xl mx-auto">
-            <div className="relative">
+          {/* Search Bar with explicit Search Button (not on keystroke) */}
+          <form onSubmit={handleSearchSubmit} className="mt-8 max-w-2xl mx-auto">
+            <div className="relative flex items-center">
               <input
                 type="text"
                 placeholder="Search games (Far Cry, Star Wars, Hellblade, Titanfall...)..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-slate-900/95 border border-slate-700 focus:border-xbox-neon text-white rounded-2xl py-3.5 pl-12 pr-4 text-sm outline-none transition-all shadow-xl placeholder:text-slate-500"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                className="w-full bg-slate-900/95 border border-slate-700 focus:border-xbox-neon text-white rounded-2xl py-3.5 pl-11 pr-28 text-sm outline-none transition-all shadow-xl placeholder:text-slate-500"
               />
-              <Search className="w-5 h-5 text-slate-400 absolute top-3.5 left-4 pointer-events-none" />
-              {search && (
+              <Search className="w-5 h-5 text-slate-400 absolute left-3.5 pointer-events-none" />
+
+              <div className="absolute right-2 flex items-center gap-1.5">
+                {searchInput && (
+                  <button
+                    type="button"
+                    onClick={handleClearSearch}
+                    className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-xl text-xs transition-colors"
+                    title="Clear search"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
                 <button
-                  onClick={() => setSearch('')}
-                  className="absolute top-3.5 right-4 text-xs bg-slate-800 text-slate-400 hover:text-white px-2 py-0.5 rounded"
+                  type="submit"
+                  className="bg-gradient-to-r from-xbox-green to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-black font-extrabold px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1 shadow-neon-green transition-all hover:scale-105 active:scale-95"
                 >
-                  Clear
+                  <Search className="w-3.5 h-3.5 stroke-[2.5]" />
+                  <span>Search</span>
                 </button>
-              )}
+              </div>
             </div>
-          </div>
+
+            {/* Active search pill indicator */}
+            {activeSearch && (
+              <div className="mt-2.5 flex items-center justify-center gap-2 text-xs text-slate-300">
+                <span>Active search: <strong className="text-xbox-neon">"{activeSearch}"</strong> ({totalItems} found)</span>
+                <button
+                  type="button"
+                  onClick={handleClearSearch}
+                  className="text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-0.5 rounded-md flex items-center gap-1 transition-colors"
+                >
+                  <X className="w-3 h-3" /> Clear
+                </button>
+              </div>
+            )}
+          </form>
         </div>
       </section>
 
       {/* Catalog & Filter Section */}
-      <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-10 w-full max-w-full">
+      <section id="catalog-section" className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-10 w-full max-w-full">
         
         {/* Filter Controls Bar */}
         <div className="space-y-4 mb-8 w-full max-w-full">
@@ -166,7 +239,7 @@ export default function Home() {
                 ].map((t) => (
                   <button
                     key={t.id}
-                    onClick={() => setSelectedAccountType(t.id)}
+                    onClick={() => handleAccountTypeChange(t.id)}
                     className={`px-2.5 sm:px-3 py-1 rounded-xl text-xs font-bold transition-all ${
                       selectedAccountType === t.id
                         ? 'bg-emerald-600 text-black shadow-neon-green'
@@ -185,7 +258,7 @@ export default function Home() {
               <span className="text-xs font-semibold text-slate-400">Sort:</span>
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+                onChange={(e) => handleSortChange(e.target.value)}
                 className="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-xl px-3 py-1.5 outline-none focus:border-emerald-500"
               >
                 <option value="featured">Featured First</option>
@@ -201,7 +274,7 @@ export default function Home() {
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setSelectedCategory(cat)}
+                onClick={() => handleCategoryChange(cat)}
                 className={`whitespace-nowrap px-3 sm:px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all shrink-0 ${
                   selectedCategory === cat
                     ? 'bg-purple-600 text-white shadow-neon-purple'
@@ -221,16 +294,16 @@ export default function Home() {
               <div key={i} className="aspect-[3/4] bg-slate-900 rounded-2xl animate-pulse border border-slate-800" />
             ))}
           </div>
-        ) : sortedProducts.length === 0 ? (
+        ) : totalItems === 0 ? (
           <div className="text-center py-20 bg-slate-900/50 rounded-2xl border border-slate-800 p-8">
             <Gamepad2 className="w-16 h-16 text-slate-600 mx-auto mb-3" />
             <h3 className="text-lg font-bold text-white mb-1">No matching games found</h3>
             <p className="text-xs text-slate-400 mb-4">Try searching with other keywords or reset your filters</p>
             <button
               onClick={() => {
-                setSearch('');
-                setSelectedCategory('All');
-                setSelectedAccountType('ALL');
+                handleClearSearch();
+                handleCategoryChange('All');
+                handleAccountTypeChange('ALL');
               }}
               className="bg-emerald-600 text-black px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-500 transition-all"
             >
@@ -239,13 +312,71 @@ export default function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-6 w-full">
-            {sortedProducts.map((product) => (
+            {paginatedProducts.map((product) => (
               <GameCard
                 key={product.id}
                 product={product}
                 onOpenDetails={(p) => setSelectedGameForModal(p)}
               />
             ))}
+          </div>
+        )}
+
+        {/* Pagination Controls (20 games per page) */}
+        {totalPages > 1 && (
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-slate-800/80 w-full">
+            <div className="text-xs text-slate-400 text-center sm:text-left">
+              Showing <span className="font-bold text-white">{startIndex + 1}</span>–
+              <span className="font-bold text-white">{Math.min(startIndex + ITEMS_PER_PAGE, totalItems)}</span> of{' '}
+              <span className="font-bold text-emerald-400">{totalItems}</span> games
+              <span className="text-slate-500 ml-1.5">(20 per page)</span>
+            </div>
+
+            <div className="flex items-center gap-1.5">
+              {/* Prev */}
+              <button
+                type="button"
+                disabled={validCurrentPage === 1}
+                onClick={() => handlePageChange(validCurrentPage - 1)}
+                className="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 transition-all"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                <span className="hidden sm:inline">Prev</span>
+              </button>
+
+              {/* Page numbers */}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                <button
+                  key={pageNum}
+                  type="button"
+                  onClick={() => handlePageChange(pageNum)}
+                  className={`w-8 h-8 rounded-xl text-xs font-bold transition-all ${
+                    validCurrentPage === pageNum
+                      ? 'bg-emerald-600 text-black font-black shadow-neon-green'
+                      : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800'
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              ))}
+
+              {/* Next */}
+              <button
+                type="button"
+                disabled={validCurrentPage === totalPages}
+                onClick={() => handlePageChange(validCurrentPage + 1)}
+                className="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 transition-all"
+              >
+                <span className="hidden sm:inline">Next</span>
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {totalItems > 0 && totalPages === 1 && (
+          <div className="mt-8 text-center text-xs text-slate-500 pt-4 border-t border-slate-800/60">
+            Showing all {totalItems} game{totalItems > 1 ? 's' : ''} (Page 1 of 1 • 20 per page)
           </div>
         )}
 
