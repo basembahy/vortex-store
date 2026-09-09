@@ -80,13 +80,13 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-12 md:py-20 border-b border-slate-800/80 bg-gradient-to-b from-slate-950 via-vortex-dark to-slate-950">
-        <div className="absolute -top-40 right-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-20 left-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="relative overflow-hidden w-full max-w-full py-12 md:py-20 border-b border-slate-800/80 bg-gradient-to-b from-slate-950 via-vortex-dark to-slate-950">
+        <div className="absolute -top-40 -right-10 w-80 sm:w-96 h-80 sm:h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-20 -left-10 w-80 sm:w-96 h-80 sm:h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto space-y-4">
             
             {/* Tagline Badge */}
@@ -146,41 +146,42 @@ export default function Home() {
       </section>
 
       {/* Catalog & Filter Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-10 w-full max-w-full">
         
         {/* Filter Controls Bar */}
-        <div className="space-y-4 mb-8">
+        <div className="space-y-4 mb-8 w-full max-w-full">
           
           {/* Account Type Filters */}
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-slate-400 flex items-center gap-1">
-                <Filter className="w-3.5 h-3.5" /> Account Type:
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 w-full">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-bold text-slate-400 flex items-center gap-1 shrink-0">
+                <Filter className="w-3.5 h-3.5" /> Account:
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {[
-                  { id: 'ALL', label: 'All Types' },
-                  { id: 'HOME', label: 'Home 🏠 (Recommended)' },
-                  { id: 'SIGN', label: 'Sign 🎮 (Budget)' },
-                  { id: 'FULL', label: 'Full 👑 (Ownership)' }
+                  { id: 'ALL', labelMobile: 'All', labelDesktop: 'All Types' },
+                  { id: 'HOME', labelMobile: 'Home 🏠', labelDesktop: 'Home 🏠 (Recommended)' },
+                  { id: 'SIGN', labelMobile: 'Sign 🎮', labelDesktop: 'Sign 🎮 (Budget)' },
+                  { id: 'FULL', labelMobile: 'Full 👑', labelDesktop: 'Full 👑 (Ownership)' }
                 ].map((t) => (
                   <button
                     key={t.id}
                     onClick={() => setSelectedAccountType(t.id)}
-                    className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
+                    className={`px-2.5 sm:px-3 py-1 rounded-xl text-xs font-bold transition-all ${
                       selectedAccountType === t.id
                         ? 'bg-emerald-600 text-black shadow-neon-green'
                         : 'bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800'
                     }`}
                   >
-                    {t.label}
+                    <span className="sm:hidden">{t.labelMobile}</span>
+                    <span className="hidden sm:inline">{t.labelDesktop}</span>
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Sort Dropdown */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
               <span className="text-xs font-semibold text-slate-400">Sort:</span>
               <select
                 value={sortBy}
@@ -196,12 +197,12 @@ export default function Home() {
           </div>
 
           {/* Category Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+          <div className="w-full max-w-full overflow-x-auto pb-2 scrollbar-none flex items-center gap-2">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                className={`whitespace-nowrap px-3 sm:px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all shrink-0 ${
                   selectedCategory === cat
                     ? 'bg-purple-600 text-white shadow-neon-purple'
                     : 'bg-slate-900/60 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800'
@@ -215,7 +216,7 @@ export default function Home() {
 
         {/* Product Cards Grid */}
         {loading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-6 w-full">
             {[...Array(10)].map((_, i) => (
               <div key={i} className="aspect-[3/4] bg-slate-900 rounded-2xl animate-pulse border border-slate-800" />
             ))}
@@ -237,7 +238,7 @@ export default function Home() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-6 w-full">
             {sortedProducts.map((product) => (
               <GameCard
                 key={product.id}
@@ -249,16 +250,16 @@ export default function Home() {
         )}
 
         {/* Informative Banner */}
-        <div className="mt-16 bg-gradient-to-r from-emerald-950/60 via-slate-900 to-purple-950/60 border border-emerald-500/30 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+        <div className="mt-16 bg-gradient-to-r from-emerald-950/60 via-slate-900 to-purple-950/60 border border-emerald-500/30 rounded-3xl p-5 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl w-full max-w-full">
           <div className="space-y-2 text-center md:text-left">
-            <h3 className="text-xl font-black text-white">Not sure about Sign vs Home vs Full Accounts?</h3>
+            <h3 className="text-lg sm:text-xl font-black text-white">Not sure about Sign vs Home vs Full Accounts?</h3>
             <p className="text-xs text-slate-300 max-w-xl">
               We provide a complete guide explaining how each account type operates on Xbox Series X|S and Xbox One with quick 2-minute setup steps.
             </p>
           </div>
           <Link
             to="/how-it-works"
-            className="whitespace-nowrap bg-gradient-to-r from-xbox-neon to-emerald-400 hover:from-emerald-400 hover:to-emerald-300 text-black font-extrabold px-6 py-3 rounded-xl text-xs shadow-neon-green flex items-center gap-2 transition-all hover:scale-105"
+            className="w-full sm:w-auto text-center justify-center bg-gradient-to-r from-xbox-neon to-emerald-400 hover:from-emerald-400 hover:to-emerald-300 text-black font-extrabold px-6 py-3 rounded-xl text-xs shadow-neon-green flex items-center gap-2 transition-all hover:scale-105 shrink-0"
           >
             <span>Read Account Guide</span>
             <ArrowRight className="w-4 h-4" />

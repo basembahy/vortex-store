@@ -83,7 +83,7 @@ export default function GameCard({ product, onOpenDetails }) {
       </div>
 
       {/* Game Content - 50% of card on mobile */}
-      <div className="p-2.5 sm:p-4 flex-1 flex flex-col justify-between">
+      <div className="p-2 sm:p-3.5 flex-1 flex flex-col justify-between min-w-0 overflow-hidden">
         <div>
           <h3 className="font-bold text-xs sm:text-base text-white line-clamp-1 group-hover:text-xbox-neon transition-colors" title={product.title}>
             {product.title}
@@ -91,11 +91,11 @@ export default function GameCard({ product, onOpenDetails }) {
         </div>
 
         {/* Account Types & Prices Selector */}
-        <div className="mt-2 sm:mt-3">
+        <div className="mt-1.5 sm:mt-3">
           <div className="text-[10px] sm:text-[11px] text-slate-400 mb-1 flex items-center justify-between">
-            <span>Account:</span>
+            <span className="shrink-0">Account:</span>
             {currentPrice && (
-              <span className="font-bold text-white text-[10px] sm:text-xs">
+              <span className="font-bold text-white text-[10px] sm:text-xs truncate">
                 Price: <strong className="text-xbox-neon text-xs sm:text-sm">{currentPrice}</strong> EGP
               </span>
             )}
@@ -121,7 +121,7 @@ export default function GameCard({ product, onOpenDetails }) {
                     e.stopPropagation();
                     if (isAvailable) setSelectedType(type);
                   }}
-                  className={`flex flex-col items-center justify-center py-1 sm:py-1.5 px-0.5 rounded-lg text-xs transition-all ${
+                  className={`flex flex-col items-center justify-center py-1 sm:py-1.5 px-0.5 rounded-lg text-xs transition-all min-w-0 ${
                     !isAvailable
                       ? 'opacity-30 cursor-not-allowed bg-transparent'
                       : isSelected
@@ -129,10 +129,10 @@ export default function GameCard({ product, onOpenDetails }) {
                       : 'hover:bg-slate-900 border border-transparent'
                   }`}
                 >
-                  <span className={`text-[9px] sm:text-[10px] font-bold ${badgeColor}`}>
+                  <span className={`text-[8.5px] sm:text-[10px] font-bold ${badgeColor} truncate max-w-full`}>
                     {type === 'SIGN' ? 'Sign 🎮' : type === 'HOME' ? 'Home 🏠' : 'Full 👑'}
                   </span>
-                  <span className="text-[10px] sm:text-[11px] font-extrabold text-white mt-0.5">
+                  <span className="text-[9.5px] sm:text-[11px] font-extrabold text-white mt-0.5 truncate max-w-full">
                     {isAvailable ? `${opt.price} EGP` : 'N/A'}
                   </span>
                 </button>
@@ -146,7 +146,7 @@ export default function GameCard({ product, onOpenDetails }) {
           type="button"
           onClick={handleAddToCart}
           disabled={!currentPrice}
-          className={`mt-2.5 sm:mt-4 w-full py-2 sm:py-2.5 px-2 rounded-xl font-bold text-[11px] sm:text-xs flex items-center justify-center gap-1 transition-all shadow-md ${
+          className={`mt-2 sm:mt-4 w-full py-1.5 sm:py-2.5 px-1.5 sm:px-2 rounded-xl font-bold text-[11px] sm:text-xs flex items-center justify-center gap-1 transition-all shadow-md ${
             justAdded
               ? 'bg-emerald-500 text-black shadow-neon-green'
               : !currentPrice
@@ -156,14 +156,14 @@ export default function GameCard({ product, onOpenDetails }) {
         >
           {justAdded ? (
             <>
-              <Check className="w-3.5 h-3.5" />
+              <Check className="w-3.5 h-3.5 shrink-0" />
               <span>Added!</span>
             </>
           ) : (
             <>
-              <ShoppingCart className="w-3.5 h-3.5" />
-              <span className="sm:hidden">Add to Cart ({currentPrice} EGP)</span>
-              <span className="hidden sm:inline">Add to Cart ({currentOption?.label} - {currentPrice} EGP)</span>
+              <ShoppingCart className="w-3.5 h-3.5 shrink-0" />
+              <span className="sm:hidden truncate">Add ({currentPrice} EGP)</span>
+              <span className="hidden sm:inline truncate">Add to Cart ({currentOption?.label} - {currentPrice} EGP)</span>
             </>
           )}
         </button>

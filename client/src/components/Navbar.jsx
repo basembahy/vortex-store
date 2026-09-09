@@ -20,33 +20,33 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full">
+    <header className="sticky top-0 z-50 w-full max-w-full overflow-hidden">
       {/* Top Announcement Bar */}
       {settings.store_announcement && (
-        <div className="bg-gradient-to-r from-emerald-900 via-xbox-dark to-purple-950 text-white text-xs py-1.5 px-4 text-center border-b border-emerald-500/20 flex items-center justify-center gap-2">
-          <span className="font-bold text-xbox-neon animate-pulse">⚡ VORTEX STORE:</span>
-          <span>{settings.store_announcement}</span>
+        <div className="bg-gradient-to-r from-emerald-900 via-xbox-dark to-purple-950 text-white text-[11px] sm:text-xs py-1 px-3 text-center border-b border-emerald-500/20 flex flex-wrap items-center justify-center gap-1.5 leading-tight">
+          <span className="font-bold text-xbox-neon animate-pulse shrink-0">⚡ VORTEX STORE:</span>
+          <span className="break-words">{settings.store_announcement}</span>
         </div>
       )}
 
       {/* Main Navigation Bar */}
-      <div className="glass-panel border-b border-slate-800/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+      <div className="glass-panel border-b border-slate-800/80 w-full max-w-full">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 gap-2">
             
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 via-xbox-green to-purple-600 p-0.5 shadow-neon-green group-hover:scale-105 transition-transform duration-300">
+            <Link to="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-emerald-500 via-xbox-green to-purple-600 p-0.5 shadow-neon-green group-hover:scale-105 transition-transform duration-300">
                 <div className="w-full h-full bg-vortex-dark rounded-[10px] flex items-center justify-center">
-                  <Gamepad2 className="w-6 h-6 text-xbox-neon group-hover:rotate-12 transition-transform duration-300" />
+                  <Gamepad2 className="w-5 h-5 sm:w-6 sm:h-6 text-xbox-neon group-hover:rotate-12 transition-transform duration-300" />
                 </div>
               </div>
               <div className="flex flex-col">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-black text-xl tracking-wider text-white">VORTEX</span>
-                  <span className="text-xs font-black bg-xbox-neon text-black px-1.5 py-0.5 rounded tracking-widest uppercase">STORE</span>
+                <div className="flex items-center gap-1">
+                  <span className="font-black text-lg sm:text-xl tracking-wider text-white">VORTEX</span>
+                  <span className="text-[10px] sm:text-xs font-black bg-xbox-neon text-black px-1.5 py-0.5 rounded tracking-widest uppercase">STORE</span>
                 </div>
-                <span className="text-[10px] tracking-widest text-emerald-400 font-semibold">PLAY MORE .. PAY LESS</span>
+                <span className="text-[9px] tracking-widest text-emerald-400 font-semibold hidden sm:inline">PLAY MORE .. PAY LESS</span>
               </div>
             </Link>
 
@@ -80,7 +80,7 @@ export default function Navbar() {
             </nav>
 
             {/* Actions: Cart + User Profile */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
               {/* Cart Button */}
               <Link
                 to="/cart"

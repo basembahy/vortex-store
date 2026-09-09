@@ -9,10 +9,10 @@ export default function Footer() {
   const whatsappHref = `https://wa.me/${(settings.whatsapp_number || '+201012345678').replace(/\D/g, '')}?text=${encodeURIComponent('Hello Vortex Store, I would like to inquire about Xbox games accounts')}`;
 
   return (
-    <footer className="bg-vortex-darker border-t border-slate-800/80 mt-20 text-slate-400 text-sm">
+    <footer className="bg-vortex-darker border-t border-slate-800/80 mt-20 text-slate-400 text-sm w-full max-w-full overflow-hidden">
       {/* Value Proposition Bar */}
-      <div className="border-b border-slate-800/60 bg-slate-950/40">
-        <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div className="border-b border-slate-800/60 bg-slate-950/40 w-full max-w-full">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 text-center">
           <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-slate-900/40 border border-slate-800">
             <div className="w-10 h-10 rounded-lg bg-emerald-950/80 border border-emerald-500/40 flex items-center justify-center text-xbox-neon">
               <ShieldCheck className="w-6 h-6" />
@@ -48,7 +48,7 @@ export default function Footer() {
       </div>
 
       {/* Main Footer Info */}
-      <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
           <div className="flex items-center gap-2.5 mb-3">
             <Gamepad2 className="w-6 h-6 text-xbox-neon" />

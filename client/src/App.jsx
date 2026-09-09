@@ -25,10 +25,10 @@ import AdminSettings from './pages/admin/AdminSettings';
 
 export default function App() {
   return (
-    <div className="flex flex-col min-h-screen bg-vortex-dark text-slate-100">
+    <div className="flex flex-col min-h-screen bg-vortex-dark text-slate-100 w-full max-w-full overflow-x-hidden">
       <Navbar />
 
-      <main className="flex-1">
+      <main className="flex-1 w-full max-w-full min-w-0 overflow-x-hidden">
         <Routes>
           {/* Public Storefront Routes */}
           <Route path="/" element={<Home />} />

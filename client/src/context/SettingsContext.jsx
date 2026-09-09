@@ -10,7 +10,7 @@ export function SettingsProvider({ children }) {
     orange_cash_number: '01212345678',
     etisalat_cash_number: '01112345678',
     whatsapp_number: '+201012345678',
-    store_announcement: '🔥 ألعاب جديدة وصلت! عروض مميزة تبدأ من 50 جنيه فقط! تسليم وتفعيل فوري على إكس بوكس'
+    store_announcement: '🔥 NEW GAMES ARRIVED! Hot Xbox deals starting from 50 EGP! Instant digital delivery to your console.'
   });
   const [loading, setLoading] = useState(true);
 
