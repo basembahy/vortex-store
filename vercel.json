@@ -23,11 +23,16 @@
       "dest": "/api/index.js"
     },
     {
-      "handle": "filesystem"
+      "src": "/assets/(.*)",
+      "dest": "/client/assets/$1"
     },
     {
-      "src": "/.*",
-      "dest": "/index.html"
+      "src": "/favicon.svg",
+      "dest": "/client/favicon.svg"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/index.html"
     }
   ]
 }
