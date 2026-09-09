@@ -1,0 +1,25 @@
+{
+  "name": "vortex-store",
+  "version": "1.0.0",
+  "description": "Vortex Store - Xbox Games Account Store",
+  "main": "server/src/server.js",
+  "scripts": {
+    "postinstall": "cd server && npm install && cd ../client && npm install",
+    "build": "cd client && npm run build",
+    "start": "node server/src/server.js",
+    "server": "node --watch server/src/server.js",
+    "client": "cd client && npm run dev",
+    "dev": "node server/src/server.js",
+    "test": "node test_full_flow.js"
+  },
+  "keywords": [
+    "xbox",
+    "games",
+    "store",
+    "ecommerce",
+    "render",
+    "postgresql"
+  ],
+  "author": "Vortex Store",
+  "license": "MIT"
+}
