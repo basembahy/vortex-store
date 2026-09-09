@@ -49,8 +49,8 @@ export default function GameCard({ product, onOpenDetails }) {
         </div>
       )}
 
-      {/* Game Poster Image */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-950">
+      {/* Game Poster Image - 50% of card on mobile */}
+      <div className="relative aspect-square sm:aspect-[4/3] w-full overflow-hidden bg-slate-950 shrink-0">
         <img
           src={product.image_url}
           alt={product.title}
@@ -63,9 +63,9 @@ export default function GameCard({ product, onOpenDetails }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30" />
 
-        {/* Category tag */}
+        {/* Category tag & Eye button */}
         <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center">
-          <span className="bg-black/80 backdrop-blur text-[10px] font-semibold text-emerald-400 px-2 py-0.5 rounded-md border border-emerald-500/30">
+          <span className="bg-black/80 backdrop-blur text-[9px] sm:text-[10px] font-semibold text-emerald-400 px-2 py-0.5 rounded-md border border-emerald-500/30 line-clamp-1 max-w-[70%]">
             {product.category || 'Xbox'}
           </span>
           <button
@@ -74,34 +74,34 @@ export default function GameCard({ product, onOpenDetails }) {
               e.stopPropagation();
               onOpenDetails && onOpenDetails(product);
             }}
-            className="w-7 h-7 rounded-full bg-slate-900/80 backdrop-blur border border-slate-700 hover:border-emerald-400 text-slate-300 hover:text-white flex items-center justify-center transition-colors"
+            className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-900/80 backdrop-blur border border-slate-700 hover:border-emerald-400 text-slate-300 hover:text-white flex items-center justify-center transition-colors shrink-0"
             title="View Details"
           >
-            <Eye className="w-3.5 h-3.5" />
+            <Eye className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
           </button>
         </div>
       </div>
 
-      {/* Game Content */}
-      <div className="p-4 flex-1 flex flex-col justify-between">
+      {/* Game Content - 50% of card on mobile */}
+      <div className="p-2.5 sm:p-4 flex-1 flex flex-col justify-between">
         <div>
-          <h3 className="font-bold text-sm sm:text-base text-white line-clamp-1 group-hover:text-xbox-neon transition-colors" title={product.title}>
+          <h3 className="font-bold text-xs sm:text-base text-white line-clamp-1 group-hover:text-xbox-neon transition-colors" title={product.title}>
             {product.title}
           </h3>
         </div>
 
         {/* Account Types & Prices Selector */}
-        <div className="mt-3">
-          <div className="text-[11px] text-slate-400 mb-1.5 flex items-center justify-between">
-            <span>Account Type:</span>
+        <div className="mt-2 sm:mt-3">
+          <div className="text-[10px] sm:text-[11px] text-slate-400 mb-1 flex items-center justify-between">
+            <span>Account:</span>
             {currentPrice && (
-              <span className="font-bold text-white text-xs">
-                Price: <strong className="text-xbox-neon text-sm">{currentPrice}</strong> EGP
+              <span className="font-bold text-white text-[10px] sm:text-xs">
+                Price: <strong className="text-xbox-neon text-xs sm:text-sm">{currentPrice}</strong> EGP
               </span>
             )}
           </div>
 
-          <div className="grid grid-cols-3 gap-1 bg-slate-950/80 p-1 rounded-xl border border-slate-800">
+          <div className="grid grid-cols-3 gap-0.5 sm:gap-1 bg-slate-950/80 p-0.5 sm:p-1 rounded-xl border border-slate-800">
             {['SIGN', 'HOME', 'FULL'].map((type) => {
               const opt = options.find((o) => o.type === type);
               const isSelected = selectedType === type && opt;
@@ -121,7 +121,7 @@ export default function GameCard({ product, onOpenDetails }) {
                     e.stopPropagation();
                     if (isAvailable) setSelectedType(type);
                   }}
-                  className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg text-xs transition-all ${
+                  className={`flex flex-col items-center justify-center py-1 sm:py-1.5 px-0.5 rounded-lg text-xs transition-all ${
                     !isAvailable
                       ? 'opacity-30 cursor-not-allowed bg-transparent'
                       : isSelected
@@ -129,10 +129,10 @@ export default function GameCard({ product, onOpenDetails }) {
                       : 'hover:bg-slate-900 border border-transparent'
                   }`}
                 >
-                  <span className={`text-[10px] font-bold ${badgeColor}`}>
+                  <span className={`text-[9px] sm:text-[10px] font-bold ${badgeColor}`}>
                     {type === 'SIGN' ? 'Sign 🎮' : type === 'HOME' ? 'Home 🏠' : 'Full 👑'}
                   </span>
-                  <span className="text-[11px] font-extrabold text-white mt-0.5">
+                  <span className="text-[10px] sm:text-[11px] font-extrabold text-white mt-0.5">
                     {isAvailable ? `${opt.price} EGP` : 'N/A'}
                   </span>
                 </button>
@@ -146,7 +146,7 @@ export default function GameCard({ product, onOpenDetails }) {
           type="button"
           onClick={handleAddToCart}
           disabled={!currentPrice}
-          className={`mt-4 w-full py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md ${
+          className={`mt-2.5 sm:mt-4 w-full py-2 sm:py-2.5 px-2 rounded-xl font-bold text-[11px] sm:text-xs flex items-center justify-center gap-1 transition-all shadow-md ${
             justAdded
               ? 'bg-emerald-500 text-black shadow-neon-green'
               : !currentPrice
@@ -156,13 +156,14 @@ export default function GameCard({ product, onOpenDetails }) {
         >
           {justAdded ? (
             <>
-              <Check className="w-4 h-4" />
-              <span>Added to Cart!</span>
+              <Check className="w-3.5 h-3.5" />
+              <span>Added!</span>
             </>
           ) : (
             <>
-              <ShoppingCart className="w-4 h-4" />
-              <span>Add to Cart ({currentOption?.label} - {currentPrice} EGP)</span>
+              <ShoppingCart className="w-3.5 h-3.5" />
+              <span className="sm:hidden">Add to Cart ({currentPrice} EGP)</span>
+              <span className="hidden sm:inline">Add to Cart ({currentOption?.label} - {currentPrice} EGP)</span>
             </>
           )}
         </button>
