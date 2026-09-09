@@ -6,7 +6,12 @@ let pool = null;
 let useLocalDb = false;
 
 // Path for local dev fallback database
-const localDbPath = path.join(__dirname, '../../data/local_db.json');
+const isVercel = Boolean(process.env.VERCEL);
+const localDbPath = isVercel
+  ? path.join('/tmp', 'local_db.json')
+  : path.join(__dirname, '../../data/local_db.json');
+
+const bundledDbPath = path.join(__dirname, '../../data/local_db.json');
 
 let memoryDb = {
   users: [],
@@ -18,13 +23,19 @@ let memoryDb = {
 
 const loadLocalDb = () => {
   try {
+    if (isVercel && fs.existsSync(localDbPath)) {
+      const data = fs.readFileSync(localDbPath, 'utf8');
+      memoryDb = JSON.parse(data);
+      return;
+    }
+    if (fs.existsSync(bundledDbPath)) {
+      const data = fs.readFileSync(bundledDbPath, 'utf8');
+      memoryDb = JSON.parse(data);
+      return;
+    }
     const dir = path.dirname(localDbPath);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
-    }
-    if (fs.existsSync(localDbPath)) {
-      const data = fs.readFileSync(localDbPath, 'utf8');
-      memoryDb = JSON.parse(data);
     }
   } catch (err) {
     console.warn('⚠️ Could not load local db, using empty:', err.message);
@@ -33,16 +44,22 @@ const loadLocalDb = () => {
 
 const saveLocalDb = () => {
   try {
+    const dir = path.dirname(localDbPath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
     fs.writeFileSync(localDbPath, JSON.stringify(memoryDb, null, 2), 'utf8');
   } catch (err) {
     console.error('Error saving local db:', err.message);
   }
 };
 
-if (process.env.DATABASE_URL) {
-  const isSsl = !process.env.DATABASE_URL.includes('localhost') && !process.env.DATABASE_URL.includes('127.0.0.1');
+const dbUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+
+if (dbUrl) {
+  const isSsl = !dbUrl.includes('localhost') && !dbUrl.includes('127.0.0.1');
   pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
+    connectionString: dbUrl,
     ssl: isSsl ? { rejectUnauthorized: false } : false,
     max: 10,
     idleTimeoutMillis: 30000,
@@ -53,7 +70,7 @@ if (process.env.DATABASE_URL) {
     console.error('Unexpected error on idle PostgreSQL client', err);
   });
 
-  console.log('📦 PostgreSQL connection pool initialized with DATABASE_URL');
+  console.log('📦 PostgreSQL connection pool initialized with database URL');
 } else {
   console.log('ℹ️ No DATABASE_URL provided. Using high-performance zero-setup local persistent JSON database.');
   useLocalDb = true;

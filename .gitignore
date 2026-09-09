@@ -15,7 +15,6 @@ dist/
 # Uploads and temporary data
 server/uploads/*
 !server/uploads/.gitkeep
-server/data/local_db.json
 
 # Logs
 npm-debug.log*

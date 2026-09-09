@@ -37,7 +37,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/settings', settingsRoutes);
 
-// Health check endpoint for Render / monitoring
+// Health check endpoint for Render / Vercel / monitoring
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'healthy',
@@ -45,6 +45,21 @@ app.get('/api/health', (req, res) => {
     uptime: Math.floor(process.uptime()),
     timestamp: new Date().toISOString()
   });
+});
+
+// Seed trigger endpoint
+app.get('/api/seed', async (req, res) => {
+  try {
+    await initDb();
+    const result = await require('./config/db').query('SELECT count(*) FROM products');
+    res.json({
+      status: 'success',
+      message: 'Database checked and seeded!',
+      productsCount: result.rows?.length || 0
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Production: Serve React Client Static Build
