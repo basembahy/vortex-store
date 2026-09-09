@@ -86,7 +86,7 @@ async function start() {
     await initDb();
     app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 Vortex Store Server running on http://localhost:${PORT}`);
-      console.log(`⚡ Ready for Render deployment with PostgreSQL`);
+      console.log(`⚡ Ready for cloud deployment`);
     });
   } catch (err) {
     console.error('Failed to start server:', err);
@@ -94,4 +94,8 @@ async function start() {
   }
 }
 
-start();
+if (require.main === module) {
+  start();
+}
+
+module.exports = app;
