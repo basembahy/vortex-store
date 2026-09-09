@@ -3,7 +3,7 @@
     {
       "id": "admin-2317b490",
       "email": "admin@vortex.store",
-      "password_hash": "$2a$10$zEaDJ2fx5oySXHWc9nJuMO0z0Cc3iTXQsRlKIB5rEXz.xSOvEm2F.",
+      "password_hash": "$2a$10$OBRJQx9R3XApEJETAFydu.GsbkLBrVRjVa6ymaS/dHveEdIkKO08m",
       "name": "Vortex Admin",
       "role": "ADMIN",
       "google_id": null,
