@@ -9,6 +9,7 @@ Engineered and optimized 100% for **Render's Free Tier** using a unified Node.js
 ## 🌟 Key Features
 
 ### 1. Customer Storefront
+- **Authentic Game Cover Art**: Every game features official high-definition cover art loaded directly on-demand via direct CDN/web URLs without consuming local disk space or repository storage.
 - **3 Account Pricing Tiers per Game**:
   - 🎮 **Sign Account**: Budget-friendly option to play directly on the provided Xbox profile.
   - 🏠 **Home Account**: Most popular option; activated once as "My Home Xbox" to play from your personal profile with online/offline achievements.
@@ -31,12 +32,27 @@ Engineered and optimized 100% for **Render's Free Tier** using a unified Node.js
 - **Order Fulfillment**:
   - Review customer payment screenshots in a full-screen preview.
   - Deliver Xbox account credentials (Email, Password, Custom Instructions) per game item.
-- **Game Catalog Management**: Add new games, modify Sign/Home/Full pricing, toggle stock, or delete games.
+- **Game Catalog Management**:
+  - Add new games by providing their direct **Image URL** (Steam CDN, Xbox Store, RAWG, etc.) with a **live instant visual preview**.
+  - No local image storage needed—images are fetched on-the-fly by customer browsers.
+  - Modify Sign/Home/Full pricing, toggle stock, or delete games.
 - **Bulk Excel/CSV Import**:
-  - Upload `.xlsx` or `.csv` sheets to batch-create or update games and pricing.
+  - Upload `.xlsx` or `.csv` sheets with `Image_Url` columns to batch-create or update games and pricing.
   - Downloadable template included (`vortex_store_games_template.xlsx`).
 - **Multi-Admin Management**: Invite new administrators or promote existing customers to Admins.
 - **Store & Payment Settings**: Update InstaPay address, mobile wallet numbers, WhatsApp support contact, and top announcement banner directly from the dashboard.
+
+---
+
+## 🔐 Administrator Credentials
+
+| Field | Value | Notes |
+| :--- | :--- | :--- |
+| **Admin Portal** | `http://localhost:5000/login` or `/admin` | Live on web service |
+| **Email** | `admin@vortex.store` | Super Admin account |
+| **Password** | `V0rt3x$2026#Admin!Xb0x` | Complex high-security password |
+
+> **Note**: A 1-click **"Demo Admin ⚡"** button is also available on the `/login` page for fast testing.
 
 ---
 
@@ -68,11 +84,6 @@ npm run build
 npm start
 ```
 The store will be running at: **`http://localhost:5000`**
-
-### Demo Admin Credentials:
-- **Email**: `admin@vortex.store`
-- **Password**: `admin123456`
-*(A 1-click "Demo Admin ⚡" button is also available on the `/login` page).*
 
 ---
 

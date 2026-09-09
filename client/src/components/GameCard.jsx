@@ -50,10 +50,14 @@ export default function GameCard({ product, onOpenDetails }) {
       )}
 
       {/* Game Poster Image */}
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-950">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-950">
         <img
           src={product.image_url}
           alt={product.title}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'https://cdn.cloudflare.steamstatic.com/steam/apps/371660/capsule_616x353.jpg';
+          }}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />

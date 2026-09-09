@@ -131,6 +131,15 @@ async function query(text, params = []) {
 
   // Handle UPDATE users
   if (lower.startsWith('update users')) {
+    if (lower.includes('set role = $1, password_hash = $2 where id = $3')) {
+      const user = memoryDb.users.find(u => u.id === params[2]);
+      if (user) {
+        user.role = params[0];
+        user.password_hash = params[1];
+        saveLocalDb();
+      }
+      return { rows: user ? [user] : [] };
+    }
     if (lower.includes('set role = $1 where id = $2')) {
       const user = memoryDb.users.find(u => u.id === params[1]);
       if (user) {
@@ -178,18 +187,22 @@ async function query(text, params = []) {
     const id = params[params.length - 1];
     const prod = memoryDb.products.find(p => p.id === id);
     if (prod) {
-      prod.title = params[0];
-      prod.title_ar = params[1];
-      prod.category = params[2];
-      prod.description = params[3];
-      prod.image_url = params[4];
-      prod.price_sign = params[5] != null ? Number(params[5]) : null;
-      prod.price_home = params[6] != null ? Number(params[6]) : null;
-      prod.price_full = params[7] != null ? Number(params[7]) : null;
-      prod.is_available_sign = Boolean(params[8]);
-      prod.is_available_home = Boolean(params[9]);
-      prod.is_available_full = Boolean(params[10]);
-      prod.featured = Boolean(params[11]);
+      if (lower.includes('set image_url = $1')) {
+        prod.image_url = params[0];
+      } else {
+        prod.title = params[0];
+        prod.title_ar = params[1];
+        prod.category = params[2];
+        prod.description = params[3];
+        prod.image_url = params[4];
+        prod.price_sign = params[5] != null ? Number(params[5]) : null;
+        prod.price_home = params[6] != null ? Number(params[6]) : null;
+        prod.price_full = params[7] != null ? Number(params[7]) : null;
+        prod.is_available_sign = Boolean(params[8]);
+        prod.is_available_home = Boolean(params[9]);
+        prod.is_available_full = Boolean(params[10]);
+        prod.featured = Boolean(params[11]);
+      }
       prod.updated_at = new Date().toISOString();
       saveLocalDb();
       return { rows: [prod] };

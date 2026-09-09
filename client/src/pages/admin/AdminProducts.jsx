@@ -14,7 +14,7 @@ export default function AdminProducts() {
     title: '',
     category: 'Action / Adventure',
     description: '',
-    image_url: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80',
+    image_url: '',
     price_sign: '',
     price_home: '',
     price_full: '',
@@ -296,15 +296,52 @@ export default function AdminProducts() {
                   />
                 </div>
 
-                <div className="sm:col-span-2">
-                  <label className="block font-bold text-slate-300 mb-1">Poster Image URL</label>
+                <div className="sm:col-span-2 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="block font-bold text-slate-300">
+                      Game Poster / Cover Image URL *
+                    </label>
+                    <span className="text-[10px] text-slate-400">Loads directly from web URL (no local file storage required)</span>
+                  </div>
                   <input
                     type="url"
-                    placeholder="https://images.unsplash.com/..."
+                    required
+                    placeholder="https://cdn.cloudflare.steamstatic.com/steam/apps/.../capsule_616x353.jpg"
                     value={formData.image_url}
                     onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white outline-none focus:border-purple-500"
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white outline-none focus:border-purple-500 font-mono text-xs"
                   />
+
+                  {/* Live Image Preview */}
+                  {formData.image_url ? (
+                    <div className="flex items-center gap-3 p-3 bg-slate-950 rounded-xl border border-slate-800">
+                      <div className="w-28 h-16 rounded-lg overflow-hidden bg-slate-900 border border-slate-700 shrink-0">
+                        <img
+                          src={formData.image_url}
+                          alt="Game preview"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.style.opacity = '0.3';
+                          }}
+                          onLoad={(e) => {
+                            e.target.style.opacity = '1';
+                          }}
+                        />
+                      </div>
+                      <div className="text-[11px] text-slate-300 leading-tight">
+                        <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                          <CheckCircle2 className="w-3.5 h-3.5" /> Direct Image Preview Loaded
+                        </span>
+                        <p className="mt-1 text-slate-400">
+                          This official game artwork will be loaded on-demand for customers.
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-[11px] text-slate-400 italic">
+                      💡 Tip: Enter direct image URL from Steam CDN, Microsoft / Xbox Store, or Web CDN.
+                    </p>
+                  )}
                 </div>
               </div>
 

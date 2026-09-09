@@ -85,7 +85,7 @@ Under the **Environment Variables** section in the Web Service setup, add:
 | `DATABASE_URL` | *(paste the PostgreSQL URL from Step 1)* | Database connection string |
 | `JWT_SECRET` | `vortex_super_secure_jwt_secret_2026_change_me` | Secret key for JWT auth tokens |
 | `ADMIN_EMAIL` | `admin@vortex.store` | Default super admin login email |
-| `ADMIN_PASSWORD` | `admin123456` | Default super admin password |
+| `ADMIN_PASSWORD` | `V0rt3x$2026#Admin!Xb0x` | Complex super admin password |
 
 Click **Create Web Service**.
 
@@ -93,7 +93,7 @@ Render will now:
 1. Clone the repository.
 2. Run `npm install && npm run build` (compiling the React frontend into `client/dist`).
 3. Launch `server/src/server.js`.
-4. Connect to PostgreSQL and automatically create all tables and initial Xbox games.
+4. Connect to PostgreSQL and automatically create all tables and initial Xbox games with authentic cover art.
 5. Provide you with your public HTTPS URL!
 
 ---
@@ -102,7 +102,7 @@ Render will now:
 
 Once deployed, visit `/login` or `/admin` on your deployed site:
 - **Email**: `admin@vortex.store`
-- **Password**: `admin123456`
+- **Password**: `V0rt3x$2026#Admin!Xb0x`
 *(You can change this password or add additional admins inside `/admin/users`).*
 
 ---

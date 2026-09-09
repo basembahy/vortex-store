@@ -105,6 +105,10 @@ exports.createProduct = async (req, res) => {
       return res.status(400).json({ message: 'Game title is required' });
     }
 
+    if (!image_url || typeof image_url !== 'string' || !image_url.trim().startsWith('http')) {
+      return res.status(400).json({ message: 'A valid game image URL is required (must start with http:// or https://)' });
+    }
+
     const prodId = 'prod-' + uuidv4().slice(0, 8);
     const result = await query(
       `INSERT INTO products (
@@ -119,7 +123,7 @@ exports.createProduct = async (req, res) => {
         title_ar ? title_ar.trim() : null,
         category ? category.trim() : 'Xbox',
         description || '',
-        image_url || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80',
+        image_url.trim(),
         price_sign != null && price_sign !== '' ? Number(price_sign) : null,
         price_home != null && price_home !== '' ? Number(price_home) : null,
         price_full != null && price_full !== '' ? Number(price_full) : null,
@@ -166,7 +170,15 @@ exports.updateProduct = async (req, res) => {
     const updatedTitleAr = title_ar !== undefined ? (title_ar ? title_ar.trim() : null) : current.title_ar;
     const updatedCategory = category !== undefined ? category.trim() : current.category;
     const updatedDesc = description !== undefined ? description : current.description;
-    const updatedImg = image_url !== undefined ? image_url : current.image_url;
+
+    let updatedImg = current.image_url;
+    if (image_url !== undefined && image_url !== null && image_url !== '') {
+      if (typeof image_url !== 'string' || !image_url.trim().startsWith('http')) {
+        return res.status(400).json({ message: 'Game image URL must start with http:// or https://' });
+      }
+      updatedImg = image_url.trim();
+    }
+
     const updatedPriceSign = price_sign !== undefined && price_sign !== '' ? (price_sign == null ? null : Number(price_sign)) : current.price_sign;
     const updatedPriceHome = price_home !== undefined && price_home !== '' ? (price_home == null ? null : Number(price_home)) : current.price_home;
     const updatedPriceFull = price_full !== undefined && price_full !== '' ? (price_full == null ? null : Number(price_full)) : current.price_full;
@@ -219,18 +231,15 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await query('DELETE FROM products WHERE id = $1 RETURNING id', [id]);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Product not found' });
-    }
-    return res.json({ message: 'Product deleted successfully', id });
+    await query('DELETE FROM products WHERE id = $1', [id]);
+    return res.json({ message: 'Product deleted successfully' });
   } catch (err) {
     console.error('deleteProduct error:', err);
     return res.status(500).json({ message: 'Error deleting product' });
   }
 };
 
-// Bulk Import from Excel / CSV (Admin)
+// Bulk Import from Excel or CSV
 exports.bulkImportExcel = async (req, res) => {
   try {
     if (!req.file) {
@@ -241,45 +250,43 @@ exports.bulkImportExcel = async (req, res) => {
     const workbook = xlsx.readFile(filePath);
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
-    const rows = xlsx.utils.sheet_to_json(sheet, { defval: '' });
+    const rows = xlsx.utils.sheet_to_json(sheet);
 
     if (!rows || rows.length === 0) {
-      return res.status(400).json({ message: 'The uploaded sheet has no rows' });
+      return res.status(400).json({ message: 'The uploaded sheet is empty' });
     }
 
     let insertedCount = 0;
     let updatedCount = 0;
 
     for (const row of rows) {
-      // Find title from various possible header names
-      const title = row['Title'] || row['Game Title'] || row['اسم اللعبة'] || row['عنوان'] || row['title'];
+      const title = row['Title'] || row['Game Title'] || row['Game'] || row['العنوان'] || row['اسم اللعبة'];
       if (!title) continue;
 
-      const title_ar = row['Title_AR'] || row['Title AR'] || row['Arabic Title'] || row['الاسم بالعربي'] || null;
-      const category = row['Category'] || row['التصنيف'] || row['القسم'] || 'Xbox';
+      const title_ar = row['Title_AR'] || row['الاسم بالعربي'] || null;
+      const category = row['Category'] || row['التصنيف'] || 'Action';
       const description = row['Description'] || row['الوصف'] || '';
-      const image_url = row['Image_Url'] || row['Image'] || row['صورة'] || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80';
+      const image_url =
+        row['Image_Url'] ||
+        row['Image'] ||
+        row['رابط الصورة'] ||
+        'https://cdn.cloudflare.steamstatic.com/steam/apps/371660/capsule_616x353.jpg';
 
-      const price_sign_raw = row['Price_Sign'] || row['Sign Price'] || row['سعر الساين'] || row['Sign'] || null;
-      const price_home_raw = row['Price_Home'] || row['Home Price'] || row['سعر الهوم'] || row['Home'] || null;
-      const price_full_raw = row['Price_Full'] || row['Full Price'] || row['سعر الكامل'] || row['Full'] || null;
-
-      const price_sign = price_sign_raw !== '' && price_sign_raw != null ? Number(price_sign_raw) : null;
-      const price_home = price_home_raw !== '' && price_home_raw != null ? Number(price_home_raw) : null;
-      const price_full = price_full_raw !== '' && price_full_raw != null ? Number(price_full_raw) : null;
+      const price_sign = row['Price_Sign'] != null && row['Price_Sign'] !== '' ? Number(row['Price_Sign']) : null;
+      const price_home = row['Price_Home'] != null && row['Price_Home'] !== '' ? Number(row['Price_Home']) : null;
+      const price_full = row['Price_Full'] != null && row['Price_Full'] !== '' ? Number(row['Price_Full']) : null;
 
       const is_available_sign = price_sign != null;
       const is_available_home = price_home != null;
       const is_available_full = price_full != null;
 
-      // Check if product already exists by title
-      const existing = await query('SELECT * FROM products WHERE LOWER(title) = $1', [title.trim().toLowerCase()]);
+      // Check if product exists by title
+      const existing = await query('SELECT * FROM products WHERE LOWER(title) = LOWER($1)', [title.trim()]);
+
       if (existing.rows && existing.rows.length > 0) {
-        // Update prices and info
-        const prod = existing.rows[0];
         await query(
           `UPDATE products SET
-            title_ar = $1,
+            title_ar = COALESCE($1, title_ar),
             category = $2,
             description = $3,
             image_url = $4,
@@ -292,22 +299,21 @@ exports.bulkImportExcel = async (req, res) => {
             updated_at = CURRENT_TIMESTAMP
           WHERE id = $11`,
           [
-            title_ar || prod.title_ar,
-            category || prod.category,
-            description || prod.description,
-            image_url || prod.image_url,
-            price_sign != null ? price_sign : prod.price_sign,
-            price_home != null ? price_home : prod.price_home,
-            price_full != null ? price_full : prod.price_full,
+            title_ar,
+            category,
+            description,
+            image_url,
+            price_sign,
+            price_home,
+            price_full,
             is_available_sign,
             is_available_home,
             is_available_full,
-            prod.id
+            existing.rows[0].id
           ]
         );
         updatedCount++;
       } else {
-        // Insert new product
         const prodId = 'prod-' + uuidv4().slice(0, 8);
         await query(
           `INSERT INTO products (
@@ -360,32 +366,29 @@ exports.downloadExcelTemplate = (req, res) => {
     const templateData = [
       {
         Title: 'Grand Theft Auto V',
-        Title_AR: 'جي تي ايه 5',
         Category: 'Action / Open World',
         Price_Sign: 70,
         Price_Home: 90,
         Price_Full: 160,
-        Image_Url: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80',
+        Image_Url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/271590/capsule_616x353.jpg',
         Description: 'Complete edition for Xbox One & Series X|S'
       },
       {
         Title: 'Cyberpunk 2077',
-        Title_AR: 'سايبر بانك 2077',
         Category: 'RPG / Sci-Fi',
         Price_Sign: 100,
         Price_Home: 130,
         Price_Full: 220,
-        Image_Url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
+        Image_Url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/capsule_616x353.jpg',
         Description: 'An open-world, action-adventure RPG set in Night City'
       },
       {
-        Title: 'FIFA 24 / EA Sports FC 24',
-        Title_AR: 'فيفا 24',
+        Title: 'EA Sports FC 24',
         Category: 'Sports',
         Price_Sign: 120,
         Price_Home: 150,
         Price_Full: 250,
-        Image_Url: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80',
+        Image_Url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/2195250/capsule_616x353.jpg',
         Description: 'Next gen soccer experience on Xbox'
       }
     ];

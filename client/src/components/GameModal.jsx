@@ -69,10 +69,14 @@ export default function GameModal({ product, onClose }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Cover Art Image */}
-          <div className="relative aspect-[3/4] md:aspect-auto h-64 md:h-full bg-slate-950">
+          <div className="relative aspect-[16/10] md:aspect-auto h-56 md:h-full bg-slate-950">
             <img
               src={product.image_url}
               alt={product.title}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = 'https://cdn.cloudflare.steamstatic.com/steam/apps/371660/capsule_616x353.jpg';
+              }}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900 md:bg-gradient-to-r md:from-transparent md:to-slate-900" />

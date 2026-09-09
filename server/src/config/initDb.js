@@ -8,7 +8,7 @@ const initialGames = [
     title_ar: 'فار كراي برايمال',
     category: 'Action / Adventure',
     description: 'Welcome to the Stone Age, an era of extreme danger and limitless adventure, where giant mammoths and sabretooth tigers rule the Earth.',
-    image_url: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/371660/capsule_616x353.jpg',
     price_sign: 50,
     price_home: 70,
     price_full: 100,
@@ -22,7 +22,7 @@ const initialGames = [
     title_ar: 'ريكور',
     category: 'Action / Sci-Fi',
     description: 'From legendary creator Keiji Inafune and the makers of Metroid Prime comes ReCore, an action-adventure masterfully crafted for a new generation.',
-    image_url: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/537450/capsule_616x353.jpg',
     price_sign: null,
     price_home: 70,
     price_full: null,
@@ -36,7 +36,7 @@ const initialGames = [
     title_ar: 'هيل بليد 2 (ديلوكس)',
     category: 'Action / Psychological Horror',
     description: 'The sequel to the award-winning Hellblade: Senua’s Sacrifice, Senua returns in a brutal journey of survival through the myth and torment of Viking Iceland.',
-    image_url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/2461850/capsule_616x353.jpg',
     price_sign: 130,
     price_home: 150,
     price_full: 250,
@@ -50,7 +50,7 @@ const initialGames = [
     title_ar: 'تايتن فول 2 التيمت',
     category: 'Shooter / FPS',
     description: 'The best way to jump into one of the most surprising shooters of recent memory. Featuring fast-paced multiplayer and an unforgettable single-player campaign.',
-    image_url: 'https://images.unsplash.com/photo-1618193139062-2c5bf4f935b7?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1237970/capsule_616x353.jpg',
     price_sign: 80,
     price_home: 90,
     price_full: 150,
@@ -63,8 +63,8 @@ const initialGames = [
     title: "EA Star Wars Triple Bundle + Alan Wake's American Nightmare",
     title_ar: 'باندل ستار وورز الثلاثي + ألان ويك',
     category: 'Bundle / Action',
-    description: 'Includes EA Star Wars Triple Bundle (Star Wars Battlefront II, Jedi Fallen Order, Jedi Survivor) plus Alan Wake American Nightmare!',
-    image_url: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80',
+    description: 'Includes EA Star Wars Triple Bundle (Star Wars Battlefront II, Jedi Fallen Order, Squadrons) plus Alan Wake American Nightmare!',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1172380/capsule_616x353.jpg',
     price_sign: 100,
     price_home: 120,
     price_full: 200,
@@ -78,7 +78,7 @@ const initialGames = [
     title_ar: 'إنجاستس 2 النسخة الأسطورية',
     category: 'Fighting',
     description: 'Power up and build the ultimate version of your favorite DC legends in INJUSTICE 2 - winner of IGN’s best fighting game of 2017.',
-    image_url: 'https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/627270/capsule_616x353.jpg',
     price_sign: null,
     price_home: 70,
     price_full: 130,
@@ -92,7 +92,7 @@ const initialGames = [
     title_ar: 'سانسيت أوفر درايف',
     category: 'Action / Open World',
     description: 'Don’t drink the energy drink! An open-world shooter without rules where you leap from buildings, grind on power lines, and use an unconventional arsenal.',
-    image_url: 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/847370/capsule_616x353.jpg',
     price_sign: null,
     price_home: 70,
     price_full: 120,
@@ -106,7 +106,7 @@ const initialGames = [
     title_ar: 'أفتر إيمدج',
     category: 'Metroidvania / 2D Action',
     description: 'A hand-drawn 2D action adventure with fast-paced combat, semi-open world exploration, and deep RPG mechanics.',
-    image_url: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1701520/capsule_616x353.jpg',
     price_sign: null,
     price_home: 80,
     price_full: 140,
@@ -120,7 +120,7 @@ const initialGames = [
     title_ar: 'إكستينكشن ديلوكس',
     category: 'Action',
     description: 'Defend humanity from waves of 150-foot tall ogres and their bloodthirsty minions in fast dynamic tactical aerial combat.',
-    image_url: 'https://images.unsplash.com/photo-1552824722-ddab1374e622?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/570710/capsule_616x353.jpg',
     price_sign: null,
     price_home: 80,
     price_full: 140,
@@ -134,7 +134,7 @@ const initialGames = [
     title_ar: 'أجاثا كريستي: هيركيول بوارو',
     category: 'Mystery / Adventure',
     description: 'Discover an untold crime story from the mysterious youth of the famous detective Hercule Poirot in early 20th-century Europe.',
-    image_url: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1573720/capsule_616x353.jpg',
     price_sign: null,
     price_home: 120,
     price_full: 180,
@@ -148,7 +148,7 @@ const initialGames = [
     title_ar: 'أجاثا كريستي: جرائم الأبجدية',
     category: 'Mystery / Detective',
     description: 'A thrilling mystery and investigation game adapted from the famous Agatha Christie classic novel.',
-    image_url: 'https://images.unsplash.com/photo-1579202673506-ca3ce28943ef?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/374900/capsule_616x353.jpg',
     price_sign: null,
     price_home: 120,
     price_full: 180,
@@ -162,7 +162,7 @@ const initialGames = [
     title_ar: 'كريس تيلز',
     category: 'RPG / Indie',
     description: 'A gorgeous, indie love letter to classic JRPGs with a unique mechanic to gaze into the past, act in the present, and dynamically alter the future.',
-    image_url: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1079830/capsule_616x353.jpg',
     price_sign: null,
     price_home: 120,
     price_full: 180,
@@ -176,7 +176,7 @@ const initialGames = [
     title_ar: 'فلاش أوت 3',
     category: 'Racing / Sci-Fi',
     description: 'Ultra-fast anti-gravity combat racing with heavy synthwave tracks, devastating weapons, and neck-breaking speeds.',
-    image_url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1761870/capsule_616x353.jpg',
     price_sign: null,
     price_home: 120,
     price_full: 180,
@@ -190,7 +190,7 @@ const initialGames = [
     title_ar: 'ألفريد هيتشكوك - فيرتيجو',
     category: 'Narrative / Thriller',
     description: 'A psychological thriller and narrative game inspired by Alfred Hitchcock’s cinema exploring obsession, manipulation and madness.',
-    image_url: 'https://images.unsplash.com/photo-1486572788966-cfd3d0f58872?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1449320/capsule_616x353.jpg',
     price_sign: null,
     price_home: 150,
     price_full: 220,
@@ -204,7 +204,7 @@ const initialGames = [
     title_ar: 'أستريكس وأوبليكس XXL3',
     category: 'Adventure / Co-op',
     description: 'Embark on an exhilarating adventure with Asterix and Obelix as they track down the powers of the mysterious Crystal Menhir!',
-    image_url: 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1109690/capsule_616x353.jpg',
     price_sign: null,
     price_home: 150,
     price_full: 220,
@@ -218,7 +218,7 @@ const initialGames = [
     title_ar: 'ديمولش آند بيلد 3',
     category: 'Simulation / Strategy',
     description: 'Operate heavy machinery, demolish crumbling structures, and expand your own global construction company.',
-    image_url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1203670/capsule_616x353.jpg',
     price_sign: null,
     price_home: 150,
     price_full: 220,
@@ -232,7 +232,7 @@ const initialGames = [
     title_ar: 'باك 4 بلاد التيمت',
     category: 'Co-op Shooter / Zombie',
     description: 'A thrilling cooperative first-person shooter from the creators of the critically acclaimed Left 4 Dead franchise.',
-    image_url: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/924970/capsule_616x353.jpg',
     price_sign: null,
     price_home: 180,
     price_full: 280,
@@ -246,7 +246,7 @@ const initialGames = [
     title_ar: 'كيوت بابي أكاديمي',
     category: 'Casual / Family',
     description: 'Train, play with, and care for adorable puppies in heartwarming missions built for animal lovers of all ages.',
-    image_url: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/2172900/capsule_616x353.jpg',
     price_sign: null,
     price_home: 200,
     price_full: 300,
@@ -348,9 +348,9 @@ async function initDb() {
   // 2. Seed Super Admin User if doesn't exist
   const adminEmail = (process.env.ADMIN_EMAIL || 'admin@vortex.store').toLowerCase();
   const existingAdmin = await query('SELECT * FROM users WHERE email = $1', [adminEmail]);
+  const defaultPassword = process.env.ADMIN_PASSWORD || 'V0rt3x$2026#Admin!Xb0x';
 
   if (!existingAdmin.rows || existingAdmin.rows.length === 0) {
-    const defaultPassword = process.env.ADMIN_PASSWORD || 'admin123456';
     const passwordHash = await bcrypt.hash(defaultPassword, 10);
     const adminId = 'admin-' + uuidv4().slice(0, 8);
     await query(
@@ -359,16 +359,16 @@ async function initDb() {
     );
     console.log(`✅ Super Admin created: ${adminEmail} (password: ${defaultPassword})`);
   } else {
-    // Ensure role is ADMIN
-    if (existingAdmin.rows[0].role !== 'ADMIN') {
-      await query('UPDATE users SET role = $1 WHERE id = $2', ['ADMIN', existingAdmin.rows[0].id]);
-    }
+    // Ensure role is ADMIN and update password to the complex password
+    const passwordHash = await bcrypt.hash(defaultPassword, 10);
+    await query('UPDATE users SET role = $1, password_hash = $2 WHERE id = $3', ['ADMIN', passwordHash, existingAdmin.rows[0].id]);
+    console.log(`✅ Super Admin refreshed: ${adminEmail}`);
   }
 
-  // 3. Seed Products if catalog is empty
+  // 3. Seed Products if catalog is empty, or update image_url if unsplash placeholder
   const existingProducts = await query('SELECT * FROM products');
   if (!existingProducts.rows || existingProducts.rows.length === 0) {
-    console.log('🎮 Seeding initial Xbox catalog from Vortex Store banners...');
+    console.log('🎮 Seeding initial Xbox catalog with official game artwork...');
     for (const game of initialGames) {
       const prodId = 'prod-' + uuidv4().slice(0, 8);
       await query(
@@ -396,6 +396,15 @@ async function initDb() {
       );
     }
     console.log(`✅ Seeded ${initialGames.length} games into catalog.`);
+  } else {
+    // Update existing products with authentic game cover images if they still have unsplash or missing images
+    for (const g of initialGames) {
+      const match = existingProducts.rows.find(p => p.title && p.title.toLowerCase() === g.title.toLowerCase());
+      if (match && (!match.image_url || match.image_url.includes('unsplash.com'))) {
+        await query('UPDATE products SET image_url = $1 WHERE id = $2', [g.image_url, match.id]);
+        console.log(`📸 Updated cover image for: "${g.title}"`);
+      }
+    }
   }
 
   // 4. Seed Settings if missing

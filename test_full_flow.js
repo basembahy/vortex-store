@@ -67,7 +67,7 @@ async function runTests() {
     console.log('\n4. Testing Admin Authentication...');
     const loginRes = await makeRequest('/api/auth/login', { method: 'POST' }, {
       email: 'admin@vortex.store',
-      password: 'admin123456'
+      password: 'V0rt3x$2026#Admin!Xb0x'
     });
     console.log('   Status:', loginRes.status, '| Role:', loginRes.data.user?.role);
     if (loginRes.status !== 200 || !loginRes.data.token) throw new Error('Admin login failed');
@@ -83,6 +83,7 @@ async function runTests() {
       title_ar: 'فورزا هورايزون 5 بريميوم',
       category: 'Racing',
       description: 'Ultimate driving adventure in Mexico',
+      image_url: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/capsule_616x353.jpg',
       price_sign: 90,
       price_home: 120,
       price_full: 220,
@@ -175,7 +176,7 @@ async function runTests() {
       headers: { Authorization: `Bearer ${adminToken}` }
     }, {
       name: 'Super Admin Two',
-      email: 'admin2@vortex.store',
+      email: `admin2_${Date.now()}@vortex.store`,
       password: 'admin2password123'
     });
     console.log('   Status:', newAdmin.status, '| New Admin User Role:', newAdmin.data.user?.role);

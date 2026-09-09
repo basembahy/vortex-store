@@ -49,11 +49,11 @@ export default function Login() {
   // One-click demo login for admin testing
   const handleQuickAdminLogin = async () => {
     setEmail('admin@vortex.store');
-    setPassword('admin123456');
+    setPassword('V0rt3x$2026#Admin!Xb0x');
     setLoading(true);
     setError(null);
     try {
-      await login('admin@vortex.store', 'admin123456');
+      await login('admin@vortex.store', 'V0rt3x$2026#Admin!Xb0x');
       navigate('/admin');
     } catch (err) {
       setError('Could not sign in as demo admin');
